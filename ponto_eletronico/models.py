@@ -63,9 +63,11 @@ class Competencia(models.Model):
 
 
 class Ponto(models.Model):
-    funcionario = models.ForeignKey('Funcionario', on_delete=models.CASCADE)
+    funcionario = models.ForeignKey(
+        Funcionario, on_delete=models.SET_NULL, null=True, blank=True)
     data = models.DateField(default=timezone.now)
-    competencia = models.CharField(max_length=7)
+    competencia = models.ForeignKey(
+        Competencia, on_delete=models.SET_NULL, null=True, blank=True,)
     entrada = models.TimeField(blank=True, null=True)
     entrada_almoco = models.TimeField(blank=True, null=True)
     saida_almoco = models.TimeField(blank=True, null=True)
@@ -73,3 +75,12 @@ class Ponto(models.Model):
 
     def __str__(self):
         return f"{self.funcionario} - {self.data}"
+
+
+class RegraDePonto(models.Model):
+    nome = models.CharField('Nome da Regra de Ponto', max_length=80)
+    toleranciaentrada = models.DurationField()
+    toleranciasaida = models.DurationField()
+    horaextraautorizada = models.BooleanField(default=False)
+    periodohoranoturnainicio = models.TimeField()
+    periodohoranoturna_fim = models.TimeField()
