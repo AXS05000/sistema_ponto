@@ -9,7 +9,7 @@ class DepartamentoAdmin(admin.ModelAdmin):
 
 @admin.register(Funcionario)
 class FuncionarioAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'departamento', 'usuario')
+    list_display = ('nome', 'rg', 'cpf', 'pis')
 
 
 @admin.register(Competencia)
@@ -26,7 +26,7 @@ class PontoAdmin(admin.ModelAdmin):
 @admin.register(RegraDePonto)
 class RegraDePontoAdmin(admin.ModelAdmin):
     listdisplay = ('nome', 'toleranciaentrada', 'toleranciasaida',
-                   'horaextraautorizada', 'periodohoranoturnainicio', 'periodohoranoturna_fim')
+                   'horaextraautorizada', 'periodohoranoturna_inicio', 'periodohoranoturna_fim')
 
 
 admin.site.register(Departamento, DepartamentoAdmin)

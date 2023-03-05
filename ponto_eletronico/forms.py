@@ -7,7 +7,7 @@ from .models import Funcionario, Ponto
 class FuncionarioForm(forms.ModelForm):
     class Meta:
         model = Funcionario
-        fields = ('nome', 'departamento', 'usuario')
+        fields = ('nome', 'rg', 'cpf', 'pis')
 
 
 class PontoForm(forms.ModelForm):

@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'projeto_ponto.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'mssql',
-        'NAME': 'BANCO_TESTE_08',
+        'NAME': 'BANCO_TESTE_09',
         'USER': 'sa',
         'PASSWORD': 'Fizz2241',
         'HOST': 'localhost',
