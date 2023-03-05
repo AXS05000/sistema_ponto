@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listagem de Funcionários</title>
+</head>
+<body>
+  <h1>Listagem de Funcionários</h1>
+  <form method="get">
+    <div class="row">
+      <div class="form-group col-md-6">
+        <input type="text" name="q" class="form-control" placeholder="Pesquisar...">
+      </div>
+      <div class="form-group col-md-6 text-right">
+        <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Pesquisar</button>
+        <a href="{% url 'funcionariocreate' %}" class="btn btn-success"><i class="fa fa-plus"></i> Novo Funcionário</a>
+      </div>
+    </div>
+  </form>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>CPF</th>
+        <th>Data de Nascimento</th>
+        <th>Departamento</th>
+        <th>Usuário</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for funcionario in funcionarios %}
+        <tr>
+          <td>{{ funcionario.nome }}</td>
+          <td>{{ funcionario.cpf }}</td>
+          <td>{{ funcionario.data_nascimento|date:"d/m/Y" }}</td>
+          <td>{{ funcionario.departamento }}</td>
+          <td>{{ funcionario.usuario }}</td>
+          <td>
+            <a href="{% url 'funcionarioupdate' funcionario.id %}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> Editar</a>
+            <a href="{% url 'funcionariodelete' funcionario.id %}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Excluir</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="6">Nenhum registro encontrado.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div class="pagination">
+    <span class="step-links">
+        {% if funcionarios.has_previous %}
+            <a href="?page=1">&laquo; Primeira</a>
+            <a href="?page={{ funcionarios.previous_page_number }}">&lsaquo; Anterior</a>
+        {% endif %}
+
+        <span class="current-page">
+            Página {{ funcionarios.number }} de {{ funcionarios.paginator.num_pages }}.
+        </span>
+
+        {% if funcionarios.has_next %}
+            <a href="?page={{ funcionarios.next_page_number }}">Próxima &rsaquo;</a>
+            <a href="?page={{ funcionarios.paginator.num_pages }}">Última &raquo;</a>
+        {% endif %}
+    </span>
+  </div>
+</body>
+</html>

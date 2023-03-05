@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listagem de Pontos</title>
+</head>
+<body>
+  <h1>Listagem de Pontos</h1>
+  <form method="get">
+    <div class="row">
+      <div class="form-group col-md-6">
+        <input type="text" name="q" class="form-control" placeholder="Pesquisar...">
+      </div>
+      <div class="form-group col-md-6 text-right">
+        <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Pesquisar</button>
+        <a href="{% url 'pontocreate' %}" class="btn btn-success"><i class="fa fa-plus"></i> Novo Ponto</a>
+      </div>
+    </div>
+  </form>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Funcionário</th>
+        <th>Data</th>
+        <th>Entrada</th>
+        <th>Saída Almoço</th>
+        <th>Retorno Almoço</th>
+        <th>Saída</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for ponto in pontos %}
+        <tr>
+          <td>{{ ponto.funcionario }}</td>
+          <td>{{ ponto.data|date:"d/m/Y" }}</td>
+          <td>{{ ponto.entrada }}</td>
+          <td>{{ ponto.saida_almoco }}</td>
+          <td>{{ ponto.entrada_almoco }}</td>
+          <td>{{ ponto.saida }}</td>
+          <td>
+            <a href="{% url 'pontoupdate' ponto.id %}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> Editar</a>
+            <a href="{% url 'pontodelete' ponto.id %}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Excluir</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="7">Nenhum registro encontrado.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div class="pagination">
+    <span class="step-links">
+        {% if pontos.has_previous %}
+            <a href="?page=1">&laquo; Primeira</a>
+            <a href="?page={{ pontos.previous_page_number }}">&lsaquo; Anterior</a>
+        {% endif %}
+
+        <span class="current-page">
+            Página {{ pontos.number }} de {{ pontos.paginator.num_pages }}.
+        </span>
+
+        {% if pontos.has_next %}
+            <a href="?page={{ pontos.next_page_number }}">Próxima &rsaquo;</a>
+            <a href="?page={{ pontos.paginator.num_pages }}">Última &raquo;</a>
+        {% endif %}
+    </span>
+  </div>
+</body>
+</html>
