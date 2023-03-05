@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Departamento, Funcionario, Ponto
+from .models import Competencia, Departamento, Funcionario, Ponto
 
 
 class DepartamentoAdmin(admin.ModelAdmin):
@@ -11,6 +11,10 @@ class FuncionarioAdmin(admin.ModelAdmin):
     list_display = ('nome', 'departamento', 'usuario')
 
 
+class CompetenciaAdmin(admin.ModelAdmin):
+    list_display = ('tipo_comp', 'mes', 'ano', 'data_inicio', 'data_fim')
+
+
 class PontoAdmin(admin.ModelAdmin):
     listdisplay = ('funcionario', 'data', 'competencia',
                    'entrada', 'entrada_almoco', 'saida_almoco', 'saida')
@@ -19,3 +23,4 @@ class PontoAdmin(admin.ModelAdmin):
 admin.site.register(Departamento, DepartamentoAdmin)
 admin.site.register(Funcionario, FuncionarioAdmin)
 admin.site.register(Ponto, PontoAdmin)
+admin.site.register(Competencia, CompetenciaAdmin)
