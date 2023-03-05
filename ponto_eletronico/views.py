@@ -5,6 +5,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
+from usuarios.models import CustomUsuario
+
 from .forms import FuncionarioForm, PontoForm
 from .models import Funcionario, Ponto
 
@@ -62,15 +64,18 @@ class PontoListView(LoginRequiredMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
+        if self.request.user.is_superuser:
+            queryset = self.model.objects.all()
+        else:
+            funcionario = self.request.user.funcionario
+            queryset = self.model.objects.filter(funcionario=funcionario)
         query = self.request.GET.get('q')
         if query:
-            object_list = self.model.objects.filter(
+            queryset = queryset.filter(
                 Q(funcionario__nome__icontains=query) |
                 Q(funcionario__departamento__icontains=query)
             ).distinct()
-        else:
-            object_list = self.model.objects.all()
-        return object_list
+        return queryset
 
 
 class PontoCreateView(LoginRequiredMixin, CreateView):

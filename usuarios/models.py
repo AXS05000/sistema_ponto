@@ -38,7 +38,17 @@ class CustomUsuario(AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'fone']
 
+    objects = UsuarioManager()
+# Tirar essa parte se for colocar em outro sistema.
+
+    def get_funcionario(self):
+        from ponto_eletronico.models import Funcionario  # Importação tardia
+        if self.is_superuser:
+            return None
+        try:
+            return self.funcionario
+        except Funcionario.DoesNotExist:
+            return None
+
     def __str__(self):
         return self.email
-
-    objects = UsuarioManager()
