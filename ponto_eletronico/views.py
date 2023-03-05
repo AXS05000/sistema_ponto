@@ -1,5 +1,6 @@
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import PageNotAnInteger, Paginator
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
@@ -76,6 +77,12 @@ class PontoListView(LoginRequiredMixin, ListView):
                 Q(funcionario__departamento__icontains=query)
             ).distinct()
         return queryset
+
+    def get_context_data(self, **kwargs):
+        # Adiciona a lista de pontos paginada no contexto
+        context = super().get_context_data(**kwargs)
+        context['pontos'] = self.get_queryset()
+        return context
 
 
 class PontoCreateView(LoginRequiredMixin, CreateView):
