@@ -120,6 +120,26 @@ class Ponto(models.Model):
     entrada_almoco = models.TimeField(blank=True, null=True)
     saida_almoco = models.TimeField(blank=True, null=True)
     saida = models.TimeField(blank=True, null=True)
+    localizacao_latitude = models.FloatField(blank=True, null=True)
+    localizacao_longitude = models.FloatField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.funcionario} - {self.data}"
+
+
+class EscalaDeTrabalho(models.Model):
+    descricao = models.CharField(max_length=100)
+    jornada_diaria = models.DurationField()
+    jornada_semanal = models.DurationField()
+    entrada = models.TimeField()
+    saida = models.TimeField()
+    entrada_almoco = models.TimeField()
+    saida_almoco = models.TimeField()
+    horario_inicio = models.DateTimeField(),
+
+
+class AlocacaoDeEscala(models.Model):
+    escala = models.ForeignKey(EscalaDeTrabalho, on_delete=models.CASCADE)
+    funcionario = models.ForeignKey(Funcionario, on_delete=models.CASCADE)
+    data_inicio = models.DateField()
+    data_fim = models.DateField(null=True, blank=True)
